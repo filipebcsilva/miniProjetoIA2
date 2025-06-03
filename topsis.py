@@ -19,8 +19,8 @@ confort = weighted_array[:,1]
 price = weighted_array[:,2]
 rating = weighted_array[:,3]
 
-positive_array = np.array([np.min(gas_consume),np.max(confort),np.min(price),np.max(rating)])
-negative_array = np.array([np.max(gas_consume),np.min(confort),np.max(price),np.min(rating)])
+positive_array = topsis_functions.positive_array_calc("crit.csv",weighted_array,num_crit)
+negative_array = topsis_functions.negative_array_calc("crit.csv",weighted_array,num_crit)
 
 distance_array_positive = topsis_functions.euclidian_distance(weighted_array,positive_array,num_type)
 distance_array_negative = topsis_functions.euclidian_distance(weighted_array,negative_array,num_type)
