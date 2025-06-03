@@ -29,7 +29,7 @@ proximity_array = topsis_functions.relative_proximity(distance_array_negative,di
 
 car_names = ["palio","hb20","corolla"]
 
-fig, ax = plt.subplots(figsize=(10,5))
+fig, ax = plt.subplots(figsize=(40,20))
 ax.bar(car_names,proximity_array,color = "blue")
 plt.xticks(car_names)
 plt.show()
