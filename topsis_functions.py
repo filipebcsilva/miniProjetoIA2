@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 import math
 
 def normalize(arr):
@@ -8,10 +9,7 @@ def normalize(arr):
     return arr
 
 
-def euclidian_distance(weighted_array,solutions_array,num_type):
-    
-    distance_array = np.empty((num_type),dtype=float)
-    
+def euclidian_distance(weighted_array,solutions_array):
     distance_array = weighted_array - solutions_array
     distance_array = np.power(distance_array,2);
     distance_array = np.sum(distance_array,axis=1)
@@ -19,16 +17,12 @@ def euclidian_distance(weighted_array,solutions_array,num_type):
         
     return distance_array
 
-def relative_proximity(negative_array,positive_array,num_type):
-    proximity_array = np.empty((num_type),dtype= float)
-    for i in range (num_type):
-        proximity_array[i] = (negative_array[i])/(positive_array[i] + negative_array[i])
+def relative_proximity(negative_array,positive_array):
+    proximity_array= negative_array/(positive_array + negative_array)
     return proximity_array
 
-def positive_array_calc(path,weighted_array,num_crits):
+def positive_array_calc(weighted_array,num_crits,crits):
     positive_array = np.empty((num_crits),dtype=float)
-    crits = np.genfromtxt(path)
-    print(crits)
     for i in range (num_crits):
         collum = weighted_array[:,i]
         if(crits[i] == "c"):
@@ -37,9 +31,8 @@ def positive_array_calc(path,weighted_array,num_crits):
             positive_array[i] = np.max(collum)
     return positive_array
 
-def negative_array_calc(path,weighted_array,num_crits):
+def negative_array_calc(weighted_array,num_crits,crits):
     negative_array = np.empty((num_crits),dtype=float)
-    crits = np.genfromtxt(path,dtype= float)
     for i in range (num_crits):
         collum = weighted_array[:,i]
         if(crits[i] == "c"):
@@ -48,5 +41,10 @@ def negative_array_calc(path,weighted_array,num_crits):
             negative_array[i] = np.min(collum)
     return negative_array
 
-            
+def plot_bar(x,y):
+    fig, ax = plt.subplots(figsize=(40,20))
+    ax.bar(x,y,color = "orange")
+    plt.show()
+
+                
     

@@ -1,39 +1,28 @@
 import numpy as np
-import math
-import matplotlib.pyplot as plt
 import topsis_functions
 
 np.set_printoptions(suppress= True)
 
 data_array = np.loadtxt("matriz_D.csv",delimiter=',',dtype= float)
 weights = np.loadtxt("pesos.csv",delimiter=',',dtype= float)
+crits = np.genfromtxt("crit.csv",delimiter=',',dtype=str)
 
-num_type = data_array.shape[0]
 num_crit = data_array.shape[1]
 
 normalize_array = topsis_functions.normalize(data_array)
 weighted_array = weights * normalize_array
 
-gas_consume = weighted_array[:,0]
-confort = weighted_array[:,1]
-price = weighted_array[:,2]
-rating = weighted_array[:,3]
+positive_array = topsis_functions.positive_array_calc(weighted_array,num_crit,crits)
+negative_array = topsis_functions.negative_array_calc(weighted_array,num_crit,crits)
 
-positive_array = topsis_functions.positive_array_calc("crit.csv",weighted_array,num_crit)
-negative_array = topsis_functions.negative_array_calc("crit.csv",weighted_array,num_crit)
+distance_array_positive = topsis_functions.euclidian_distance(weighted_array,positive_array)
+distance_array_negative = topsis_functions.euclidian_distance(weighted_array,negative_array)
 
-distance_array_positive = topsis_functions.euclidian_distance(weighted_array,positive_array,num_type)
-distance_array_negative = topsis_functions.euclidian_distance(weighted_array,negative_array,num_type)
+proximity_array = topsis_functions.relative_proximity(distance_array_negative,distance_array_positive)
 
-proximity_array = topsis_functions.relative_proximity(distance_array_negative,distance_array_positive,num_type)
+x_names = ["palio","hb20","corolla"]
 
-car_names = ["palio","hb20","corolla"]
-
-fig, ax = plt.subplots(figsize=(40,20))
-ax.bar(car_names,proximity_array,color = "blue")
-plt.xticks(car_names)
-plt.show()
-
+topsis_functions.plot_bar(x_names,proximity_array)
 
 
 
